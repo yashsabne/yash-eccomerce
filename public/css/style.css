@@ -1,0 +1,496 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fad8c7;
+     
+}
+
+.navbar {
+    width: 100%;
+    position: fixed;
+    background-color: #00539C;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    height: 68px;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar-brand {
+    margin-left: 20px;
+}
+
+.cartOption:hover {
+    border: 1px solid white;
+    padding: 10px 5px 10px 5px;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    margin-left: auto;  
+}
+/* .deliveryLocation {
+    margin-left:-20px;
+} */
+
+.d-flex {
+    align-items: center;
+    /* margin-left: 30px; */
+    
+}
+
+.d-flex input {
+    width: 50vw;
+    border: none;
+    height: 40px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.searchBtn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 50px;
+    height: 40px;
+    border: none;
+    background-color: white;
+}
+
+.searchBtn:focus {
+    border: none;
+}
+
+.cart-icon {
+    width: 60px;
+    height: 40px;
+}
+
+.cart-quantity {
+    position: relative;
+    right: 29px;
+    bottom: 1px;
+    font-size: larger;
+}
+
+.cartOption,.cart-quantity,.cart-icon:hover {
+    color: white;
+}
+
+.cartOption {
+    display: flex;
+    margin-left: 20px;
+}
+
+.account {
+    height: 50px;
+    width: 50px;
+    padding: 0px;
+    border: none;
+    border-radius: 50%;
+    font-size: xx-large;
+    background-color: #00539C;
+    margin-left: 20px;
+}
+
+.dropdown:hover .dropdown-item {
+    color: #00539C;
+    display: block;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-top: 60px;
+}
+
+.product {
+    background-color: #efdcdc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 5px;
+    transition: transform 0.2s ease-in-out;
+    width: 300px;
+
+
+}
+
+.product:hover {
+    transform: scale(1.05);
+}
+
+.products img {
+    padding-top: 5px;
+    max-width: 290px;
+    max-height: 290px;
+    object-fit: cover;
+}
+
+.product-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product span {
+    margin: 2px 2px 2px 5px;
+    max-width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    font-weight: 600;
+    max-height: max-content;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.discription {
+    margin: 20px 10px 20px 50px;
+}
+
+.price{
+    margin: 20px 10px 20px 50px;
+    font-weight: 700;
+    font-size: large;
+    color: green;
+}
+#priceData {
+    margin: auto;
+    font-weight: 700;
+    font-size: large;
+    color: green;
+}
+
+
+.btn-div {
+    display: flex;
+    justify-content: center;
+}
+.btn-div button:hover {
+    background-color: lightgreen;
+    color: black;
+    font-weight: 600;
+    border: none;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);  
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 70%;  
+    width: 100%;
+    max-height: 84vh;  
+    overflow-y: auto;
+}
+
+.close {
+    position: sticky;
+    align-self: flex-end;
+    top: 2px;
+    right: 10px;
+    cursor: pointer;
+}
+
+@media (max-width:500px) {
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 96%;  
+        width: 100%;
+        max-height: 84vh; 
+        overflow-y: auto;
+    }
+    .img-product img {
+        max-height: 500px;
+       max-width: 390px;
+    }    
+    .product {
+        width: 400px;
+    }
+    .cartOption {
+        display: flex;
+      margin-left: 0px;
+        
+      }
+      .navbar {
+    
+        height: max-content;
+      }
+}
+@media (max-width:1000px) {
+
+    .navbar {
+    
+        height: max-content;
+      }
+}
+
+.img-product-and-info {
+    display: flex;
+    flex-wrap: wrap;
+    /* max-width: 600px; */
+}
+
+.img-product {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+}
+
+.img-product img {
+    max-height: 400px;
+   max-width: 400px;
+}
+
+.info-aboutProduct {
+    max-width: 500px;
+}
+#title-product-id {
+    position: relative;
+    left: 50px;
+    font-size: x-large;
+
+}
+.about-price h5 {
+
+    width: max-content; 
+    height: 40px; 
+    padding: 8px 7px 5px 5px; 
+    border: 1px solid salmon; 
+    border-radius: 5px;   
+}
+.rating img {
+    margin-left: 50px;
+    margin-bottom: 5px;
+    height: 20px;
+
+    width: fit-content;
+}
+.rateCount {
+    margin-left: 50px;
+}
+.check-out {
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+/* LOGIN PAGE CSS */ 
+  .centered {
+      padding-top: 200px;
+      text-align: center;
+  }
+   
+  .container-yash {
+    display: flex;
+    justify-content: center;
+   
+  }
+  .container-main {
+    color: navy;
+    background-color: silver;
+    height: 400px;
+    /* width: 80vw; */
+    margin-top: 10vw;
+  }
+  .btn-div {
+    display: flex;
+    justify-content: center;
+  
+  }
+  .yashbtn {
+    font-size: large;
+    margin-right: 20px;
+  }
+  .body  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 100px;
+  }
+  .container-yash-home {
+    display: flex;
+    justify-content: center;
+     
+  
+  }
+  @media (max-width:600px) {
+    .img-div img {
+      width: 73vw;
+     
+    }
+  }
+   
+  .img-div img {
+    width: 45vw;
+    border-radius: 20px;
+    height: 600px;
+    margin-right: 30px;
+  }
+  
+   #imput-u, #imput-p,#imput-c,#imput-cnf,#imput-name,#imput-dob{
+    width: 300px;
+    background-color: aliceblue;
+   }
+   
+  
+   .ba {
+    width: 280px;
+    background-color: rgb(64, 93, 230);
+   }
+   .ba:hover {
+    background-color:rgb(64, 93, 230);
+   }
+   .login-register {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 0.2px solid rgb(200, 198, 198);
+    border-radius: 5px;
+    padding: 24px 10px 24px 10px;
+    box-shadow: 1px 1px 13px rgb(167, 167, 167);
+    
+  
+   }
+   .login-register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 10px;
+  
+   }
+   
+  
+   .div1 {
+    width: 100px;
+    height: 0.2px;
+    border: 1px solid gray;
+  
+   }
+   .div2 {
+    margin: 0px 8px 0px 8px;
+   }
+   .other-login  {
+    margin: 15px 0px 5px 0px;
+    color: blue;
+  
+   }
+  
+   .log-flex {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 30px;
+   }
+   .new-register {
+    margin-top: 10px;
+    width: 341px;
+    height: 80px;
+    padding-bottom: 3px;
+    
+   }
+   .passcheck {
+    margin-top: -10px;
+    margin-right: 160px;
+  
+   }
+    
+   .main-cont-register {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center ;
+  
+   }
+   .login-register {
+    background-color: white;
+   }
+
+ .footer-part {
+    padding-top: 30px;
+    background-color: #00539C;
+    color: white;
+ 
+  }
+ footer {
+    background-color: #00539C;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    padding-bottom: 20px;
+
+
+
+ }
+ .myLink {
+    border: none;
+    background-color: white;
+ }
+ .price-sort {
+    font-size: medium;
+    color: white;
+    width: fit-content;
+    background-color: transparent;
+    border: none;
+ }
+ .div-price {
+    display: flex;
+    align-items: center;
+
+    height: fit-content;
+    width: 100%;
+    padding-left: 20px;
+ }
+ .yashDroppdownPrice {
+    margin-left: -30px;
+    padding: 0px;
+ }
+ .price-sort{
+    width: fit-content;
+    padding: 0px 0px 0px 0px;
+    margin-left: 40px;
+ }
+ #navbarDropdown {
+    padding: 0px;
+    margin-right: 10px;
+ }
+ .radioC {
+    width: fit-content;
+    margin-right: 5px;
+ }
