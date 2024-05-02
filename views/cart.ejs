@@ -1,27 +1,223 @@
+<!-- cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <title>Shopping Cart</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/cart.css">
+    <link href="imges/yashDeveloperfavicon.png" rel="icon">
+    <link rel="stylesheet" href="css/style.css"> 
+    <title>Cart Items</title>
+    
 </head>
-<body>
-  <div class="cart">
-    <h2>Shopping Cart</h2>
-    <ul id="cart-items">
-      <!-- Cart items will be displayed here -->
-    </ul>
-    <p>Total: $<span id="total">0</span></p>
-  </div>
-  
-  <!-- Add the following link to navigate back to the products page -->
-  <a href="/">Go back to Products</a>
 
-  <script type="module" src="js/checkout.js"></script>
-  <script type="module" src="js/main.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<body id="cart-body">
+
+ 
+  <nav class="navbar navbar-expand-lg ">
+    <a class="navbar-brand" href="#">
+      <!-- <b>YASH'S STORE</b> -->
+      <img style="height: 60px;width: 100px;" src="imges/logo.png" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars-staggered navbar-toggler-icon"></i>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link deliveryLocation" href="/">
+            <i class="fa-solid fa-location-dot"></i> 
+            <span id="cityName"> <%= locals.cityOfDelivery %></span>
+         </a>
+        </li>
+
+        <li class="nav-item dropdown yashDroppdownPrice">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+            <button class="price-sort">Sort Price</button>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="lToH" value="low to high"><label for="lToH">low to high</label> </div>
+          <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="hToL" value="high to low"><label for="hToL">high to low</label></div>
+
+          </div>
+        </li>
+        <div class="d-flex ">
+          <input type="text" class="form-control" id="categoryInput" placeholder="Search For Products - accesories,clothes,electronics..">
+         <button class="btn searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <li id="yourOrders">
+          <a href="/Orders"> 
+          <i style="color: white;margin-bottom: -20px;" class="fa-solid fa-bag-shopping"></i> <br>
+          <span> your orders</span>
+        </a>
+        </li>
+
+        <li class="nav-item dropdown"> 
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+            <button class="account" style="color: #00539C;background-color: white;text-transform: capitalize;border: 2px solid orange;">
+
+            <%  if(locals.cartItemNumber ==='') {  %>  
+                <i class="fa-solid fa-circle-user" style="color: 00539C;"></i>
+           <%    } else {   %>
+                 <p><%=firstLetterOfUser  %></p>
+         <%  } %>     
+             
+            </button>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item openLoginModel" href="/login">Login</a>
+            <a class="dropdown-item" href="/register">New Register</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Need Help?</a>
+            <a  class="dropdown-item" style="color: blue;" id="logout" href="/logout">Logout</a>
+          </div>
+        </li>
+
+
+        <a class="nav-link cartOption" href="/cart">
+          <img class="cart-icon" src="imges/cart-icon.png">
+          <div class="cart-quantity" id="cartQuantity"> 
+          
+            <% if (locals.cartItemNumber ==='')  { %>
+              <big>+</big>
+          <% } else { %>
+              <%= locals.cartItemNumber %>
+          <% } %>
+
+          </div>
+      </a>
+      </ul>
+       
+      
+    </div>
+     
+  </nav>
+
+
+    <div class="main-cart" >
+
+        <div class="namediv" style="display: flex;flex-direction: column;">
+            <div class="name"><h4 id="shopingCart">Shopping Cart</h4></div>
+ 
+            <% if ( cartIsEmpty) { %>
+              <div class="cart-empty" style="background-color: white;">
+                <div class="empty-cart-header">
+                </div>
+                    <div class="empty-cart">
+                        <span class="empty-cart-icon"><img src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt=""></span>
+                        <a  > <h2>Your Cart Is Currently Empty!</h2></a>
+                        <p> Looks like you have not made your choice yet.Get the latest and the best products of numerous categories at affordable price. </p>
+                    </div>
+             </div>
+          <% } else { %>
+              <!-- Render your cart items here -->
+              <% cartItems.forEach(item => { %>
+                <div class="cart-item" style="background-color: white;">
+                  <div class="item-sections js-cart-item-container-<%= item.productId %>">
+                    <div class="product-img-cart">
+                      <img src="<%= item.productImage %>"  alt="<%= item.productName %>">
+                      <a href="https://www.google.com/search?q=${item.category}" target="_blank">
+                        <div class="category-cart-section"> <%= item.productCategory %></div>
+                      </a>
+                    </div>
+                    <div class="info-product"> 
+                      <div class="title-cart-section"><%= item.productName %></div>
+                      <div class="price-cart-section">₹ <%= item.productPrice %> /-</div>
+                      <div class="quantity">
+                        <span>Quantity:</span>
+                        
+                        <span class="update-quantity numberQ" style="font-size: medium;"><%= item.quantityOfItem %></span>
+                    
+                      </div>
+                      <div class="img-rate">
+                        <img src="imges/ratings/rating-<%= item.productRating.rate * 10 %>.png">
+                      </div>
+                      <div class="item-count"><%= item.productRating.count %></div>
+                      <span class="delete-quantity-link link-primary js-delete-link" data-product-id="<%= item.productId %>">
+                        Remove from cart
+                      </span>
+                      
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+  
+             <%   })%>  
+          <% } %>
+          
+
+</div>
+
+
+
+    <div class="div-payment-section">
+        <h4 style="padding: 10px 0px 5px 10px; text-align: center;">Cart Summary</h4>
+
+  
+  <div class="main">
+
+    <div class="checkout-grid">
+      <div class="order-summary js-order-summary">
+      </div>
+
+      <div class="payment-summary">
+        <div class="payment-summary-title">
+          Order Summary
+        </div>
+
+        <div class="payment-summary-row">
+          <div class="totalItems">Items(<%= locals.cartItemNumber %>)</div>
+          <div class="payment-summary-money" id="payItemSum"> <%= locals.totalSumBeforeShipping %></div>
+        </div>
+
+        <div class="payment-summary-row">
+          <div>Shipping &amp; handling:</div>
+          <div class="payment-summary-money" >Rs. <span  id="shippingCost"><%= locals.shipppingCharges %></span></div>
+        </div>
+
+        <div class="payment-summary-row subtotal-row">
+          <div>Total before tax:</div>
+          <div class="payment-summary-money" >Rs. <span id="beforeTax"><%= locals.totalSum %></span></div>
+        </div> 
+   
+        <div class="payment-summary-row">
+          <div>Estimated tax (5% for <small>> Rs.1000</small>) :</div>
+          <div class="payment-summary-money">Rs. <span id="taxAdd"><%= locals.taxesOnProducts %></span></div>
+        </div>
+
+        <div class="payment-summary-row total-row">
+          <div>Order total:</div>
+          <div class="payment-summary-money">Rs. <span id="completeTotal"><%= locals.totalAfterTax %></span></div>
+        </div>
+
+        <a href="/address">
+          <button class="place-order-button button-primary" >
+          Procced
+        </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+ 
+ 
+    <%- include('partials/footer.ejs') %>
+
+    <!-- Include your cart script -->
+    <script type="module" src="js/main.js"></script>
+
+    <script src="js/cart.js"></script>
+ 
+
 </body>
 </html>

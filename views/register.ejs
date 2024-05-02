@@ -5,8 +5,15 @@
   <title>Register</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+  <link href="imges/yashDeveloperfavicon.png" rel="icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<style>
+  .otprelated {
+    width: fit-content;
+    margin-bottom: 10px;
+  }
+</style>
 
 <body>
   <h3 style="text-align: center;margin-top: 10px;color: rgb(48, 48, 230);">Welcome to Yash Store
@@ -22,7 +29,6 @@
 
     <div class="log-flex">
       <div class="login-register">
-        <!-- Makes POST request to /login route -->
         <form action="/register" method="POST">
           <div class="login-register-form">
             <div class="logo-login">
@@ -30,39 +36,40 @@
             </div>
 
             <div class="form-group">
-              <input type="email" id="imput-u" class="form-control" name="username" placeholder=" email address"
-                required>
+              <input type="email" id="imput-u" class="form-control" name="username" placeholder="Email address" required>
+            </div>
+ 
+            <button type="button" class="btn btn-dark ba otprelated" id="sendOTP">Send OTP</button>
+
+            <div class="form-group" id="otpField" style="display: none;margin-top: 10px;" >
+              <input type="text" id="imput-otp" style="background-color: aliceblue;" class="form-control" name="otp" placeholder="Enter OTP" required>
+            </div>
+
+            <button type="button" class="btn btn-dark ba otprelated" id="verifyOTP"style="display: none;" >Verify OTP</button>
+            
+            <div class="form-group">
+              <input type="text" id="imput-name" class="form-control" autocomplete="off" name="fullName" placeholder="Full Name"  required>
             </div>
 
             <div class="form-group">
-              <input type="text" id="imput-name" class="form-control" autocomplete="off" name="fullName"
-                placeholder="Full Name" required>
+              <input type="password" id="imput-p" class="form-control" autocomplete="off" name="password" placeholder="Password" required>
+            </div>
+
+            <span class="passcheck"><input type="checkbox" onclick="viewPass()" id="passcheck"><label for="passcheck">Show Password</label></span>
+
+            <div class="form-group">
+              <input type="password" id="imput-cnf" class="form-control" autocomplete="off" name="cnfpass" placeholder="Confirm Password" required>
             </div>
 
             <div class="form-group">
-              <input type="password" id="imput-p" class="form-control" autocomplete="off" name="password"
-                placeholder="password" required>
-            </div>
-
-            <span class="passcheck"><input type="checkbox" onclick="viewPass()" id="passcheck"><label
-                for="passcheck">show password</label></span>
-
-            <div class="form-group">
-              <input type="password" id="imput-cnf" class="form-control" autocomplete="off" name="cnfpass"
-                placeholder=" confirm password" required>
+              <input type="number" class="form-control" id="imput-c" placeholder="Phone Number" name="phone"  required>
             </div>
 
             <div class="form-group">
-              <input type="number" class="form-control" id="imput-c" placeholder=" phone number" name="phone" required>
+              <input type="date" id="imput-dob" class="form-control" name="dob" autocomplete="off" placeholder="DOB" required>
             </div>
 
-            <div class="form-group">
-              <input type="date" id="imput-dob" class="form-control" name="dob" autocomplete="off" placeholder="DOB"
-                required>
-            </div>
-
-
-            <button type="submit" class="btn btn-dark ba">Register</button>
+            <button type="submit" class="btn btn-dark ba" id="funNAme">Register</button>
           </div>
         </form>
 
@@ -75,8 +82,7 @@
         <div class="other-login">
           <span> <a href="/auth/google"> <i class="fa-brands fa-google"></i> login with google</span></a>
         </div>
-        <small style="text-align: center;">for now password reset feature <br> is not available so remember
-          pasword</small>
+        <small style="text-align: center;">For now, the password reset feature <br> is not available so remember your password</small>
 
       </div>
       <div class="login-register new-register">
@@ -85,6 +91,14 @@
 
     </div>
   </div>
+
+
+
+
+
+
+  
+
   <script>
     function viewPass() {
       const passview = document.getElementById("imput-p");
@@ -104,6 +118,89 @@
         cnf.type = 'password'
       }
     }
+
+    document.getElementById("sendOTP").addEventListener("click", async function() {
+    const username = document.getElementById("imput-u").value;
+    console.log(username);
+
+    fetch("/send-email-otp", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username: username })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error sending OTP');
+        }
+        return response.text(); // Return response as text
+    })
+    .then(data => {
+        console.log(data);
+        // alert("OTP sent successfully.");
+        console.log("otp sent");
+        document.getElementById("sendOTP").innerHTML = "otp sucessfully sent";
+        document.getElementById("otpField").style.display = "block";
+        document.getElementById("verifyOTP").style.display = "block";
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Error sending OTP please ensure correct email");
+    });
+});
+
+    document.getElementById("verifyOTP").addEventListener("click", async () => {
+      const username = document.getElementById("imput-u").value;
+      const otp = document.getElementById("imput-otp").value;
+  
+      try {
+        const response = await fetch("/verify-otp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ username, otp })
+        });
+  
+        const result = await response.json();
+  
+        if (result.success) {
+          // OTP verification successful, enable the register button
+         
+          document.getElementById("funNAme").disabled = false;
+          document.getElementById("verifyOTP").innerHTML = "OTP Verified"
+          document.getElementById("otpField").style.display = "none";
+          document.getElementById("sendOTP").style.display = "none";
+          document.getElementById("imput-otp").style.display = "none";
+
+          const verifyBtn = document.getElementById("verifyOTP");
+
+          setTimeout(() => {
+            verifyBtn.style.display = 'none'
+          }, 1000);
+
+} else {
+          // OTP verification failed, display error message
+          alert("Incorrect OTP. Please try again.");
+        }
+      } catch (error) {
+       
+        alert("An error occurred. Please try again.");
+      }
+    });
+
+    const loginSubmitBtn = document.getElementById("funNAme");
+
+    loginSubmitBtn.addEventListener("click",() => {
+      const usernameForImg = document.getElementById("imput-u").value;
+
+      let usernameArry = usernameForImg;
+
+      let arr = usernameArry.split('');
+
+      localStorage.setItem('arr', JSON.stringify(arr));
+    });
   </script>
 </body>
 </html>

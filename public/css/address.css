@@ -1,0 +1,320 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.wantpad {
+    padding-left: 20px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    height: max-content;
+}
+
+.for-flex-center {
+    display: flex;
+    justify-content: center;
+}
+@media (max-width:600px) {
+    .for-flex-center {
+    display: flex;
+    justify-content: center;
+}
+}
+
+
+
+.main-add-pay {
+    padding-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.address-pay-info {
+    width: 60vw;
+    background-color: white;
+ 
+}
+ 
+
+.head-of-steps {
+    width: max-content;
+    padding-top: 10px;
+    padding-left: 5px;
+    color: #c45500;
+    /* width: 100vw; */
+}
+
+ 
+
+.your-add-list {
+    width: 57vw;
+    margin-top: 10px;
+    border: 1px solid rgb(176, 176, 176);
+    border-radius: 8px;
+    background-color: white;
+    padding: 10px 0px 10px 0px;
+}
+@media  (max-width:1000px) {
+    
+    .your-add-list {
+        width: 95vw;
+        margin-top: 10px;
+        border: 1px solid rgb(176, 176, 176);
+        border-radius: 8px;
+    }
+    .address-pay-info {
+        width: 95vw;
+        background-color: white;
+     
+    }
+}
+
+.add-list-ul li {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border: 1px solid #ca8d5f;
+    border-radius: 6px;
+    padding: 4px;
+    transition: background-color 0.3s;
+    width: fit-content;
+    /* Adding a smooth transition effect */
+}
+
+
+.add-list-ul li:hover,.add-list-ul-pay li:hover {
+    background-color: #FCF5EE;
+    /* Adding hover effect */
+}
+
+
+.add-list-ul li input[type="radio"]:checked {
+    background-color: #FCF5EE;
+}
+
+.add-list-ul li input,.add-list-ul-pay li input {
+    margin-right: 6px;
+
+}
+.add-list-ul-pay li {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    font-weight: 600;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    /* border: 1px solid #ca8d5f; */
+    border-radius: 6px;
+    padding: 4px;
+    transition: background-color 0.3s;
+ 
+    /* Adding a smooth transition effect */
+}
+#selectBankFromHere {
+    margin-top: 50px;
+    margin-left: -100px;
+    border-radius: 10px;
+    font-size: medium;
+}
+
+
+.div-add-list {
+    display: flex;
+    flex-direction: column;
+    align-items: self-start;
+    margin-left: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 300px;
+}
+.div-title-new-add {
+position: sticky;
+top: 2px;
+} 
+.BtnAddressAdd {
+    color: #F0f2f2;
+    height: 40px;
+    font-size: 14px;
+    width:170px;
+    background-color: #00539C;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+ 
+ 
+.BtnAddressAdd:hover{
+    animation: textSizeIncrease 0.3s forwards;
+    color: white;
+}
+
+@keyframes textSizeIncrease {
+    from {
+        font-size: 14px;
+    }
+    to {
+        font-size: 17px;
+    }
+}
+
+.modalAddress {
+    display: none;
+    position: fixed;
+    top: 0;
+    padding-top: 100px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    /* align-items: center; */
+}
+
+ ::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color:#FAEBEFFF ;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background-color: #00203FFF;
+    border-radius: 20px;
+}
+
+
+.modal-content-add {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60vw;
+    width: 100%;
+    max-height: 84vh;
+    overflow-y: auto;
+}
+@media (max-width:600px) {
+    .modal-content-add {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 95vw ;
+        width: 100%;
+        max-height: 84vh;
+        overflow-y: auto;
+    }
+    
+}
+.closeAadd {
+    display: flex;
+    justify-content: end;
+    position: sticky;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.div-title-new-add {
+    width: 100%;
+    background-color: #F0f2f2;
+    padding: 10px 10px 10px 10px;
+    margin-top: 5px;
+}
+.div-bold-new-add {
+    margin: 20px 0px 20px 15px;
+}
+.lablefont {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    width: 100%;
+    font-weight: 600;
+    font-size: large;
+}
+.inputWidth {
+    width: 80%;
+    border-radius: 6px;
+    font-size:17px;
+    color: #00539C;
+    padding-left: 10px;
+    height: 37px;
+    border:1px solid rebeccapurple;
+}
+.inputWidth:focus {
+    outline: none; /* Remove default outline */
+    border-color: #00539C; /* Change border color when focused */
+    box-shadow: 0 0 5px rgba(0, 8, 255, 0.5); /* Add a box shadow when focused */
+}
+.onlyForStyle {
+    margin-left:20px;
+}
+
+.deleteAddress {
+     color: rgb(242, 93, 93);
+    cursor: pointer;
+    font-size: 30px;
+    margin: 0px 5px 1px 50px;
+}
+.deleteAddress:hover {
+    box-shadow: 2px 2px 52px saddlebrown;
+}
+.emptyAddSection i {
+    margin: 15PX 0px 5px 0px;
+    padding: 10px;
+    color:gray;
+    cursor: pointer;
+ 
+  border: none;
+  /* color: white; */
+  padding: 16px 32px;
+  text-align: center;
+  font-size: 16px;
+  margin: 4px 2px;
+  opacity: 0.6;
+  transition: 0.3s;
+ 
+    font-size: 100px;
+}
+
+.emptyAddSection i:hover {opacity: 1}
+
+.addressdiv {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px 5px 10px;
+}
+.addressdiv label {
+    margin: 0px 0px 0px 0px;
+}
+ 
+.other-upi-options {
+    display: flex;
+    flex-direction: column;
+}
+.input-upi-options {
+    display: flex;
+}
+#exampleFormControlInput1 {
+    background-color: aliceblue;
+    height: 30px;
+}
+.verifyUPI {
+     padding: 3px 3px 3px 3px;
+     height: 30px;
+     margin-left: 20px;
+ 
+
+}
+@media (max-width:1050px) {
+    .div-payment-section {
+        margin-top: 20px;
+    }
+    
+}
+.padddiv {
+    padding: 15px 10px 15px 10px ;
+}

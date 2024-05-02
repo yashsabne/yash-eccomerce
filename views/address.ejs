@@ -1,0 +1,660 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="imges/yashDeveloperfavicon.png" rel="icon">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/address.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <title>Add and address and confirm order</title>
+</head>
+
+
+
+<body id="cart-body">
+ 
+  <nav class="navbar navbar-expand-lg ">
+    <a class="navbar-brand" href="#">
+      <!-- <b>YASH'S STORE</b> -->
+      <img style="height: 60px;width: 100px;" src="imges/logo.png" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fa-solid fa-bars-staggered navbar-toggler-icon"></i>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link deliveryLocation" href="/">
+            <i class="fa-solid fa-location-dot"></i> 
+            <span id="cityName"> <%= locals.cityOfDelivery %></span>
+         </a>
+        </li>
+
+        <li class="nav-item dropdown yashDroppdownPrice">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+            <button class="price-sort">Sort Price</button>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="lToH" value="low to high"><label for="lToH">low to high</label> </div>
+          <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="hToL" value="high to low"><label for="hToL">high to low</label></div>
+
+          </div>
+        </li>
+        <div class="d-flex ">
+          <input type="text" class="form-control" id="categoryInput" placeholder="Search For Products - accesories,clothes,electronics..">
+         <button class="btn searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <li id="yourOrders">
+          <a href="/Orders"> 
+          <i style="color: white;margin-bottom: -20px;" class="fa-solid fa-bag-shopping"></i> <br>
+          <span> your orders</span>
+        </a>
+        </li>
+
+        <li class="nav-item dropdown"> 
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+            <button class="account" style="color: #00539C;background-color: white;text-transform: capitalize;border: 2px solid orange;">
+
+            <%  if(locals.cartItemNumber ==='') {  %>  
+                <i class="fa-solid fa-circle-user" style="color: 00539C;"></i>
+           <%    } else {   %>
+                 <p><%=firstLetterOfUser  %></p>
+         <%  } %>     
+             
+            </button>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item openLoginModel" href="/login">Login</a>
+            <a class="dropdown-item" href="/register">New Register</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Need Help?</a>
+            <a  class="dropdown-item" style="color: blue;" id="logout" href="/logout">Logout</a>
+          </div>
+        </li>
+
+
+        <a class="nav-link cartOption" href="/cart">
+          <img class="cart-icon" src="imges/cart-icon.png">
+          <div class="cart-quantity" id="cartQuantity"> 
+          
+            <% if (locals.cartItemNumber ==='')  { %>
+              <big>+</big>
+          <% } else { %>
+              <%= locals.cartItemNumber %>
+          <% } %>
+
+          </div>
+      </a>
+      </ul>
+       
+      
+    </div>
+     
+  </nav>
+
+
+  <div class="main-add-pay">
+    <div class="namediv" style="display: flex; flex-direction: column;">
+      <div class="name">
+        <h4 id="shopingCart">Address & Payment</h4>
+      </div> 
+ 
+  
+      <div class="address-pay-info">
+        <div class="step1 address">
+          <h5 class="head-of-steps">1. Select the delivery address</h5>
+          <div class="for-flex-center">
+            <div class="your-add-list">
+              <span class="wantpad" style="font-size: 21px; font-weight: 500;">Your address
+                <i class="fa-solid fa-circle-plus openModalAddressLink" style="color: #00539C;"></i>
+              </span>
+              <div class="div-line" style="width: 55vw; border: 1px solid rgb(225, 223, 223); margin-left: 20px; border-radius: 100px; margin-top: 5px;"></div>
+              <div class="div-add-list" id="shippingAddress">
+                <ul style="list-style: none;" class="add-list-ul">
+                  <% if(addresses.length > 0) { %>
+                  <% addresses.forEach((address, index) => { %>
+                  <li class=" js-address-container-<%=index %>">
+                    <div class="addressdiv" >
+                      <input type="radio" name="selectAddress" id="address<%= index %>" value="<%= index %>">
+                      <label for="address<%= index %>">
+                        <b><%= address.fullName %></b>
+                        <%= address.flatHouse %>, <%= address.AreaOrVillage %>, <%= address.City %>, <%= address.State %>, <%= address.pincode %>, Country Code(<b><%= address.country %></b>)
+                      </label>
+                      <span class="deleteAddress">&Cross;</span>
+                    </div>
+                  </li>
+                  <% }) %>
+                  <% } else { %>
+                  <span class="emptyAddSection ">
+                    <i class="fa-solid fa-circle-plus openModelLinkBigOne" style="color: #00539C;"></i>
+                  </span>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="step2 address" >
+          <h5 class="head-of-steps">2. Select the Payment method</h5>
+          <div class="for-flex-center">
+            <div class="your-add-list">  
+              <div class="div-add-list" id="paymentAddress"  >  
+                <ul style="list-style: none;" class="add-list-ul-pay">
+                  <p>
+                    <li  style="color: gray;" disabled> <input id="creditOrdebit" type="radio" name="paymentOption" disabled> <label for="creditOrdebit"> credit or debit card
+                        <img src="https://m.media-amazon.com/images/G/31/payments-portal/r1/issuer-images/sprite-map._CB443317321_.png" style="margin-top: 5px;" alt="" srcset="">
+                      </label>
+                    </li>
+                  </p>
+                  <li style="color: gray;">
+                    <div class="input-label" style="height: 30px; display: flex; align-items: center;">
+                      <input id="netBanking" type="radio" name="paymentOption" style="margin-bottom: 8px;" disabled> <label for="netBanking">Net banking</label>
+                    </div>
+                    <select class="form-select" name="selectBank" id="selectBankFromHere" aria-label="Default select example" disabled>
+                      <option value="">Select the bank</option>
+                      <option value="SBI">State Bank Of India</option>
+                      <option value="HDFC">HDFC</option>
+                      <option value="BoM">Bank of MAHARASHTRA</option>
+                    </select>
+                  </li>
+                  <li style="color: gray;">
+                    <div class="other-upi-options">
+                      <div class="input-label" style="height: 30px; display: flex; align-items: center;">
+                        <input id="otherUpi" type="radio" name="paymentOption" style="margin-bottom: 8px;" disabled> 
+                        <label for="upiapps">Other UPIapps</label>
+                      </div>
+                      <span style="font-size: medium;font-weight: 400;">please enter the UPI id</span>
+                      <div class="input-upi-options">
+                        <div class="mb-3">
+                          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter your UPI id">
+                        </div>
+                        <button type="submit" class="btn btn-dark verifyUPI">Verify</button>
+                      </div>
+                    </div>
+                  </li>
+                  <li style="color: gray;">
+                    <div class="input-label padddiv" style="height: 30px; display: flex; align-items: center;">
+                      <input id="emiOption" name="paymentOption" type="radio" style="margin-bottom: 8px; margin-right: 10px;" disabled> 
+                      <label for="emiOption" style="font-weight: 600;">EMI</label>
+                    </div>
+                  </li>
+                  <li>
+             
+                  <div class="input-label padddiv" style="height: 30px; display: flex; align-items: center;">
+                    <input id="otherMethod" name="paymentOption" type="radio" style="margin-bottom: 8px; margin-right: 10px;"> 
+                    <label for="otherMethod" style="font-weight: 600;max-width: 200px;">Other Method</label>
+                  </div>
+                  </li>
+                  <li>
+                    <div class="input-label padddiv" style="height: 30px; display: flex; align-items: center;">
+                      <input id="cashOnDelivery" name="paymentOption" type="radio" style="margin-bottom: 8px; margin-right: 10px;"> 
+                      <label for="cashOnDelivery" style="font-weight: 600;max-width: 200px;">Cash on Delivery/Pay on Delivery</label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="div-payment-section">
+      <h4 style="padding: 10px 0px 5px 10px; text-align: center;">Cart Summary</h4>
+
+      <div class="main">
+
+
+        <div class="checkout-grid">
+          <div class="order-summary js-order-summary">
+          </div>
+
+          <div class="payment-summary">
+            <div class="payment-summary-title">
+              Order Summary
+            </div>
+
+            <div class="payment-summary-row">
+              <div class="totalItems">Items(<%= locals.cartItemNumber %>)</div>
+              <div class="payment-summary-money" id="payItemSum"> </div>
+            </div>
+
+            <div class="payment-summary-row">
+              <div>Shipping &amp; handling:</div>
+              <div class="payment-summary-money">Rs. <span id="shippingCost">
+                  <%= locals.shipppingCharges %>
+                </span></div>
+            </div>
+
+            <div class="payment-summary-row subtotal-row">
+              <div>Total before tax:</div>
+              <div class="payment-summary-money">Rs. <span id="beforeTax">
+                  <%= locals.totalSum %>
+                </span></div>
+            </div>
+
+            <div class="payment-summary-row">
+              <div>Estimated tax (5%):</div>
+              <div class="payment-summary-money">Rs. <span id="taxAdd">
+                  <%= locals.taxesOnProducts %>
+                </span></div>
+            </div>
+
+            <div class="payment-summary-row total-row">
+              <div>Order total:</div>
+              <div class="payment-summary-money">Rs. <span id="completeTotal">
+                  <%= locals.totalAfterTax %>
+                </span></div>
+            </div>
+
+             <button class="place-order-button button-primary" id="orderConfirmButton" type="submit">
+                Confirm your Order
+              </button> 
+         
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+ 
+
+
+  <!-- for model new address add -->
+  <div class="modalAddress" id="myModalAddress">
+    <div class="modal-content-add">
+
+
+      <div class="form-add-info">
+
+
+        <div class="div-title-new-add">
+          <h5 style="display: flex;align-items: center;justify-content: space-between;">Enter the new delivery <span
+              class="closeAadd" onclick="closeModalAdd()"><i class="fa-solid fa-xmark"></i></span></h5>
+        </div>
+
+        <div class="div-bold-new-add">
+          <h3 style="font-family: sans-serif;"> Add a new address </h3>
+        </div>
+        <hr>
+
+        <form action="/newAddress" class="onlyForStyle" method="POST">
+
+          <label for="countries" class="countryDetails lablefont">Select the country</label>
+          <select name="countries" id="countries" autocomplete="off" class="inputWidth" required>
+            <option value="AF">Afghanistan</option>
+            <option value="AX">Aland Islands</option>
+            <option value="AL">Albania</option>
+            <option value="DZ">Algeria</option>
+            <option value="AS">American Samoa</option>
+            <option value="AD">Andorra</option>
+            <option value="AO">Angola</option>
+            <option value="AI">Anguilla</option>
+            <option value="AQ">Antarctica</option>
+            <option value="AG">Antigua and Barbuda</option>
+            <option value="AR">Argentina</option>
+            <option value="AM">Armenia</option>
+            <option value="AW">Aruba</option>
+            <option value="AU">Australia</option>
+            <option value="AT">Austria</option>
+            <option value="AZ">Azerbaijan</option>
+            <option value="BS">Bahamas, The</option>
+            <option value="BH">Bahrain</option>
+            <option value="BD">Bangladesh</option>
+            <option value="BB">Barbados</option>
+            <option value="BY">Belarus</option>
+            <option value="BE">Belgium</option>
+            <option value="BZ">Belize</option>
+            <option value="BJ">Benin</option>
+            <option value="BM">Bermuda</option>
+            <option value="BT">Bhutan</option>
+            <option value="BO">Bolivia</option>
+            <option value="BQ">Bonaire, Saint Eustatius and Saba</option>
+            <option value="BA">Bosnia and Herzegovina</option>
+            <option value="BW">Botswana</option>
+            <option value="BV">Bouvet Island</option>
+            <option value="BR">Brazil</option>
+            <option value="IO">British Indian Ocean Territory</option>
+            <option value="BN">Brunei Darussalam</option>
+            <option value="BG">Bulgaria</option>
+            <option value="BF">Burkina Faso</option>
+            <option value="BI">Burundi</option>
+            <option value="KH">Cambodia</option>
+            <option value="CM">Cameroon</option>
+            <option value="CA">Canada</option>
+            <option value="IC">Canary Islands</option>
+            <option value="CV">Cape Verde</option>
+            <option value="KY">Cayman Islands</option>
+            <option value="CF">Central African Republic</option>
+            <option value="TD">Chad</option>
+            <option value="CL">Chile</option>
+            <option value="CN">China</option>
+            <option value="CX">Christmas Island</option>
+            <option value="CC">Cocos (Keeling) Islands</option>
+            <option value="CO">Colombia</option>
+            <option value="KM">Comoros</option>
+            <option value="CG">Congo</option>
+            <option value="CD">Congo, Democratic Republic of</option>
+            <option value="CK">Cook Islands</option>
+            <option value="CR">Costa Rica</option>
+            <option value="HR">Croatia</option>
+            <option value="CW">Curaçao</option>
+            <option value="CY">Cyprus</option>
+            <option value="CZ">Czech Republic</option>
+            <option value="DK">Denmark</option>
+            <option value="DJ">Djibouti</option>
+            <option value="DM">Dominica, Commonwealth of</option>
+            <option value="DO">Dominican Republic</option>
+            <option value="TL">East Timor</option>
+            <option value="EC">Ecuador</option>
+            <option value="EG">Egypt</option>
+            <option value="SV">El Salvador</option>
+            <option value="GQ">Equatorial Guinea</option>
+            <option value="ER">Eritrea</option>
+            <option value="EE">Estonia</option>
+            <option value="ET">Ethiopia</option>
+            <option value="FK">Falkland Islands</option>
+            <option value="FO">Faroe Islands</option>
+            <option value="FJ">Fiji</option>
+            <option value="FI">Finland</option>
+            <option value="FR">France</option>
+            <option value="GF">French Guiana</option>
+            <option value="PF">French Polynesia</option>
+            <option value="TF">French Southern Territories</option>
+            <option value="GA">Gabon</option>
+            <option value="GM">Gambia, The</option>
+            <option value="GE">Georgia</option>
+            <option value="DE">Germany</option>
+            <option value="GH">Ghana</option>
+            <option value="GI">Gibraltar</option>
+            <option value="GR">Greece</option>
+            <option value="GL">Greenland</option>
+            <option value="GD">Grenada</option>
+            <option value="GP">Guadeloupe</option>
+            <option value="GU">Guam</option>
+            <option value="GT">Guatemala</option>
+            <option value="GG">Guernsey</option>
+            <option value="GN">Guinea</option>
+            <option value="GW">Guinea-Bissau</option>
+            <option value="GY">Guyana</option>
+            <option value="HT">Haiti</option>
+            <option value="HM">Heard Island and the McDonald Islands</option>
+            <option value="VA">Holy See</option>
+            <option value="HN">Honduras</option>
+            <option value="HK">Hong Kong</option>
+            <option value="HU">Hungary</option>
+            <option value="IS">Iceland</option>
+            <option value="IN" selected="">India</option>
+            <option value="ID">Indonesia</option>
+            <option value="IQ">Iraq</option>
+            <option value="IE">Ireland, Republic of</option>
+            <option value="IM">Isle of Man</option>
+            <option value="IL">Israel</option>
+            <option value="IT">Italy</option>
+            <option value="CI">Ivory Coast (Côte D'ivoire)</option>
+            <option value="JM">Jamaica</option>
+            <option value="JP">Japan</option>
+            <option value="JE">Jersey</option>
+            <option value="JO">Jordan</option>
+            <option value="KZ">Kazakhstan</option>
+            <option value="KE">Kenya</option>
+            <option value="KI">Kiribati</option>
+            <option value="KR">Korea, Republic of</option>
+            <option value="XK">Kosovo</option>
+            <option value="KW">Kuwait</option>
+            <option value="KG">Kyrgyzstan</option>
+            <option value="LA">Lao, People's Democratic Republic</option>
+            <option value="LV">Latvia</option>
+            <option value="LB">Lebanon</option>
+            <option value="LS">Lesotho</option>
+            <option value="LR">Liberia</option>
+            <option value="LY">Libya</option>
+            <option value="LI">Liechtenstein</option>
+            <option value="LT">Lithuania</option>
+            <option value="LU">Luxembourg</option>
+            <option value="MO">Macao</option>
+            <option value="MK">Macedonia, The Former Yugoslav Republic of</option>
+            <option value="MG">Madagascar</option>
+            <option value="MW">Malawi</option>
+            <option value="MY">Malaysia</option>
+            <option value="MV">Maldives</option>
+            <option value="ML">Mali</option>
+            <option value="MT">Malta</option>
+            <option value="MH">Marshall Islands</option>
+            <option value="MQ">Martinique</option>
+            <option value="MR">Mauritania</option>
+            <option value="MU">Mauritius</option>
+            <option value="YT">Mayotte</option>
+            <option value="MX">Mexico</option>
+            <option value="FM">Micronesia, Federated States of</option>
+            <option value="MD">Moldova, Republic of</option>
+            <option value="MC">Monaco</option>
+            <option value="MN">Mongolia</option>
+            <option value="ME">Montenegro</option>
+            <option value="MS">Montserrat</option>
+            <option value="MA">Morocco</option>
+            <option value="MZ">Mozambique</option>
+            <option value="MM">Myanmar</option>
+            <option value="NA">Namibia</option>
+            <option value="NR">Nauru</option>
+            <option value="NP">Nepal</option>
+            <option value="NL">Netherlands</option>
+            <option value="AN">Netherlands Antilles</option>
+            <option value="NC">New Caledonia</option>
+            <option value="NZ">New Zealand</option>
+            <option value="NI">Nicaragua</option>
+            <option value="NE">Niger</option>
+            <option value="NG">Nigeria</option>
+            <option value="NU">Niue</option>
+            <option value="NF">Norfolk Island</option>
+            <option value="MP">Northern Mariana Islands</option>
+            <option value="NO">Norway</option>
+            <option value="OM">Oman</option>
+            <option value="PK">Pakistan</option>
+            <option value="PW">Palau</option>
+            <option value="PS">Palestinian Territories</option>
+            <option value="PA">Panama</option>
+            <option value="PG">Papua New Guinea</option>
+            <option value="PY">Paraguay</option>
+            <option value="PE">Peru</option>
+            <option value="PH">Philippines</option>
+            <option value="PN">Pitcairn</option>
+            <option value="PL">Poland</option>
+            <option value="PT">Portugal</option>
+            <option value="PR">Puerto Rico</option>
+            <option value="QA">Qatar</option>
+            <option value="RE">Reunion</option>
+            <option value="RO">Romania</option>
+            <option value="RU">Russian Federation</option>
+            <option value="RW">Rwanda</option>
+            <option value="BL">Saint Barthelemy</option>
+            <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+            <option value="KN">Saint Kitts and Nevis</option>
+            <option value="LC">Saint Lucia</option>
+            <option value="MF">Saint Martin</option>
+            <option value="PM">Saint Pierre and Miquelon</option>
+            <option value="VC">Saint Vincent and the Grenadines</option>
+            <option value="WS">Samoa</option>
+            <option value="SM">San Marino</option>
+            <option value="ST">Sao Tome and Principe</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="SN">Senegal</option>
+            <option value="RS">Serbia</option>
+            <option value="SC">Seychelles</option>
+            <option value="SL">Sierra Leone</option>
+            <option value="SG">Singapore</option>
+            <option value="SX">Sint Maarten</option>
+            <option value="SK">Slovakia</option>
+            <option value="SI">Slovenia</option>
+            <option value="SB">Solomon Islands</option>
+            <option value="SO">Somalia</option>
+            <option value="ZA">South Africa</option>
+            <option value="GS">South Georgia and the South Sandwich Islands</option>
+            <option value="ES">Spain</option>
+            <option value="LK">Sri Lanka</option>
+            <option value="SR">Suriname</option>
+            <option value="SJ">Svalbard and Jan Mayen</option>
+            <option value="SZ">Swaziland</option>
+            <option value="SE">Sweden</option>
+            <option value="CH">Switzerland</option>
+            <option value="TW">Taiwan</option>
+            <option value="TJ">Tajikistan</option>
+            <option value="TZ">Tanzania, United Republic of</option>
+            <option value="TH">Thailand</option>
+            <option value="TG">Togo</option>
+            <option value="TK">Tokelau</option>
+            <option value="TO">Tonga</option>
+            <option value="TT">Trinidad and Tobago</option>
+            <option value="TN">Tunisia</option>
+            <option value="TR">Turkey</option>
+            <option value="TM">Turkmenistan</option>
+            <option value="TC">Turks and Caicos Islands</option>
+            <option value="TV">Tuvalu</option>
+            <option value="UG">Uganda</option>
+            <option value="UA">Ukraine</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="GB">United Kingdom</option>
+            <option value="US">United States</option>
+            <option value="UM">United States Minor Outlying Islands</option>
+            <option value="UY">Uruguay</option>
+            <option value="UZ">Uzbekistan</option>
+            <option value="VU">Vanuatu</option>
+            <option value="VE">Venezuela</option>
+            <option value="VN">Vietnam</option>
+            <option value="VG">Virgin Islands, British</option>
+            <option value="VI">Virgin Islands, US</option>
+            <option value="WF">Wallis and Futuna</option>
+            <option value="EH">Western Sahara</option>
+            <option value="YE">Yemen</option>
+            <option value="ZM">Zambia</option>
+            <option value="ZW">Zimbabwe</option>
+          </select>
+
+          <div class="name-section">
+            <div class="name addSection">
+              <label for="nameAddress" class="lablefont">Full name and last name</label>
+              <input type="text" name="nameAddress" class="inputWidth" id="nameAddress" required>
+            </div>
+            <div class="mobile addSection">
+              <label for="mobileAdd" class="lablefont">Mobile number</label>
+              <input maxlength="10" type="number" name="mobileAdd" class="inputWidth" id="mobileAdd" required>
+            </div>
+            <div class="pincode addSection">
+              <label for="pincodeAdd" class="lablefont">Pincode</label>
+              <input maxlength="6" type="text" name="pincodeAdd" class="inputWidth" id="pincodeAdd" required>
+            </div>
+            <div class="moreInfo addSection">
+              <label for="houseAdd" class="lablefont">Flat, House no., Building, Company, Apartment</label>
+              <input type="text" name="houseAdd" class="inputWidth" id="houseAdd" required>
+            </div>
+            <div class="village addSection">
+              <label for="villageAdd" class="lablefont">Area, Street, Sector, Village</label>
+              <input type="text" name="villageAdd" class="inputWidth" id="villageAdd" required>
+            </div>
+            <div class="landmark addSection">
+              <label for="landmarkAdd" class="lablefont">Landmark</label>
+              <input type="text" name="landmarkAdd" class="inputWidth" id="landmarkAdd"
+                placeholder="E.g. near SVNIT College" required>
+            </div>
+
+
+            <div class="flex-more-design">
+              <label for="townAdd" class="lablefont">Town/City</label>
+              <input type="text" name="townAdd" class="inputWidth" id="townAdd" required>
+
+              <label for="State" class="lablefont">State</label>
+              <select name="State" id="State" class="inputWidth" required>
+                <option class="a-prompt" value="">Choose a state</option>
+                <option value="ANDAMAN &amp; NICOBAR ISLANDS">ANDAMAN &amp; NICOBAR ISLANDS</option>
+                <option value="ANDHRA PRADESH">ANDHRA PRADESH</option>
+                <option value="ARUNACHAL PRADESH">ARUNACHAL PRADESH</option>
+                <option value="ASSAM">ASSAM</option>
+                <option value="BIHAR">BIHAR</option>
+                <option value="CHANDIGARH">CHANDIGARH</option>
+                <option value="CHHATTISGARH">CHHATTISGARH</option>
+                <option value="DADRA AND NAGAR HAVELI AND DAMAN AND DIU">DADRA AND NAGAR HAVELI AND DAMAN AND DIU
+                </option>
+                <option value="DELHI">DELHI</option>
+                <option value="GOA">GOA</option>
+                <option value="GUJARAT">GUJARAT</option>
+                <option value="HARYANA">HARYANA</option>
+                <option value="HIMACHAL PRADESH">HIMACHAL PRADESH</option>
+                <option value="JAMMU &amp; KASHMIR">JAMMU &amp; KASHMIR</option>
+                <option value="JHARKHAND">JHARKHAND</option>
+                <option value="KARNATAKA">KARNATAKA</option>
+                <option value="KERALA">KERALA</option>
+                <option value="LADAKH">LADAKH</option>
+                <option value="LAKSHADWEEP">LAKSHADWEEP</option>
+                <option value="MADHYA PRADESH">MADHYA PRADESH</option>
+                <option value="MAHARASHTRA">MAHARASHTRA</option>
+                <option value="MANIPUR">MANIPUR</option>
+                <option value="MEGHALAYA">MEGHALAYA</option>
+                <option value="MIZORAM">MIZORAM</option>
+                <option value="NAGALAND">NAGALAND</option>
+                <option value="ODISHA">ODISHA</option>
+                <option value="PUDUCHERRY">PUDUCHERRY</option>
+                <option value="PUNJAB">PUNJAB</option>
+                <option value="RAJASTHAN">RAJASTHAN</option>
+                <option value="SIKKIM">SIKKIM</option>
+                <option value="TAMIL NADU">TAMIL NADU</option>
+                <option value="TELANGANA">TELANGANA</option>
+                <option value="TRIPURA">TRIPURA</option>
+                <option value="UTTAR PRADESH">UTTAR PRADESH</option>
+                <option value="UTTARAKHAND">UTTARAKHAND</option>
+                <option value="WEST BENGAL">WEST BENGAL</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-div-center-add">
+            <form action="/saveTheAdd" method="POST">
+              <button type="submit" class="btn button-primary BtnAddressAdd" data-toggle="modal"
+                data-target="#exampleModal">Save the Address</button>
+              <!-- <p id="savedtheaddressnotify"><%= locals.messageNotify %> </p> -->
+            </form>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+
+  <div class="div-container-modelBox-alert"></div>
+
+  <%- include('partials/footer.ejs') %>
+  
+    <script>
+      function closeModalAdd() {
+        document.getElementById("myModalAddress").style.display = 'none';
+      }
+    </script>
+    <script type="module" src="js/addressandpay.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+
+</body>
+
+</html>

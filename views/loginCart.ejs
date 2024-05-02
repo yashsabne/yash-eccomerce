@@ -1,0 +1,157 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/cart.css">
+    <link href="imges/yashDeveloperfavicon.png" rel="icon">
+    <link rel="stylesheet" href="css/style.css"> 
+    <title>Cart Items</title> 
+</head>
+
+<body id="cart-body">
+
+    <nav class="navbar navbar-expand-lg ">
+        <a class="navbar-brand" href="#">
+          <!-- <b>YASH'S STORE</b> -->
+          <img style="height: 60px;width: 100px;" src="imges/logo.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars-staggered navbar-toggler-icon"></i>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link deliveryLocation" href="#">
+                <i class="fa-solid fa-location-dot"></i> 
+           
+             </a>
+            </li>
+
+            <li class="nav-item dropdown yashDroppdownPrice">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+                <button class="price-sort">Sort Price</button>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="lToH" value="low to high"><label for="lToH">low to high</label> </div>
+              <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="hToL" value="high to low"><label for="hToL">high to low</label></div>
+
+              </div>
+            </li>
+            <div class="d-flex ">
+              <input type="text" class="form-control" id="categoryInput" placeholder="Search For Products - accesories,clothes,electronics..">
+             <button class="btn searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <li class="nav-item dropdown"> 
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" >
+                <button class="account" style="color: #00539C;background-color: white;text-transform: capitalize;border: 2px solid orange;"><i class="fa-solid fa-circle-user" style="color: 00539C;"></i></button>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item openLoginModel" href="/login">Login</a>
+                <a class="dropdown-item" href="/register">New Register</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Need Help?</a>
+              </div>
+            </li>
+
+
+            <a class="nav-link cartOption" href="/cart">
+              <img class="cart-icon" src="imges/cart-icon.png">
+              <div class="cart-quantity" id="cartQuantityCart"></div>
+          </a>
+          </ul>
+           
+          
+        </div>
+         
+      </nav>
+
+    <div class="main-cart" >
+
+        <div class="namediv" style="display: flex;flex-direction: column;">
+            <div class="name"><h4 id="shopingCart">Shopping Cart</h4></div>
+ 
+            <h2>Please logging to account <a href="/login">login</a></h2>
+ 
+          
+
+ 
+           
+          <!-- <div id="cart-items"></div> -->
+</div>
+
+
+
+    <div class="div-payment-section">
+        <h4 style="padding: 10px 0px 5px 10px; text-align: center;">Cart Summary</h4>
+
+        <div class="freedelivey" style="display: flex;justify-content: center;">
+        <span style="color: #c45500;">add more ruppes <span id="freeRemain"></span> to get free delivery</span>
+      </div>
+  <div class="main">
+   
+
+    <div class="checkout-grid">
+      <div class="order-summary js-order-summary">
+      </div>
+
+      <div class="payment-summary">
+        <div class="payment-summary-title">
+          Order Summary
+        </div>
+
+        <div class="payment-summary-row">
+          <div class="totalItems"> </div>
+          <div class="payment-summary-money" id="payItemSum"> </div>
+        </div>
+
+        <div class="payment-summary-row">
+          <div>Shipping &amp; handling:</div>
+          <div class="payment-summary-money" >Rs.<span  id="shippingCost"></span></div>
+        </div>
+
+        <div class="payment-summary-row subtotal-row">
+          <div>Total before tax:</div>
+          <div class="payment-summary-money" >Rs.<span id="beforeTax"></span></div>
+        </div> 
+   
+        <div class="payment-summary-row">
+          <div>Estimated tax (5%):</div>
+          <div class="payment-summary-money">Rs. <span id="taxAdd"></span></div>
+        </div>
+
+        <div class="payment-summary-row total-row">
+          <div>Order total:</div>
+          <div class="payment-summary-money">Rs. <span id="completeTotal"></span></div>
+        </div>
+
+        <a href="/address"><button class="place-order-button button-primary" >
+          Procced
+        </button></a>
+      </div>
+    </div>
+  </div>
+    </div>
+
+
+
+</div>
+
+
+
+    <%- include('partials/footer.ejs') %>
+
+    <!-- Include your cart script -->
+    <script type="module" src="js/main.js"></script>
+
+    <script src="js/cart.js"></script>
+ 
+
+</body>
+</html>

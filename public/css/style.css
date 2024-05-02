@@ -3,7 +3,6 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fad8c7;
      
 }
 
@@ -111,7 +110,7 @@ body {
 }
 
 .product {
-    background-color: #efdcdc;
+    background-color:aliceblue;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -300,6 +299,10 @@ body {
 .check-out {
     margin-top: 10px;
     margin-left: 50px;
+    display: flex;
+    align-items: center;
+    max-width: 300px;
+    justify-content: space-between;
 }
 
 /* LOGIN PAGE CSS */ 
@@ -454,6 +457,7 @@ body {
     justify-content: space-around;
     color: white;
     padding-bottom: 20px;
+    margin-top: 20px;
 
 
 
@@ -494,3 +498,24 @@ body {
     width: fit-content;
     margin-right: 5px;
  }
+ ::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color:#FAEBEFFF ;
+}
+
+ ::-webkit-scrollbar-thumb {
+    background-color: #00203FFF;
+    border-radius: 20px;
+}
+
+#yourOrders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    padding: 10px;
+}
