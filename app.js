@@ -8,7 +8,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const path = require('path');
 const fs = require('fs');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 const { config, configDotenv } = require('dotenv');
@@ -17,7 +17,7 @@ const axios = require('axios');
 const dayjs = require('dayjs');
 const Razorpay = require('razorpay');
 const { type } = require('os');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 
 // Set up view engine (assuming you're using EJS)
@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/ecommerceData')
+mongoose.connect(process.env.MONGO_URL)
 
 const User = mongoose.model('User', new mongoose.Schema({
     username: String,
