@@ -853,7 +853,7 @@ app.get('/Orders', async (req, res) => {
 
         }));
 
-        res.render('orders', {
+        res.render('Orders', {
             deliveringProductsOrDelivered
         });
 
