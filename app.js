@@ -114,29 +114,7 @@ app.get('/products', (req, res) => {
 
 app.get('/', async (req, res) => {
 
-    axios.get('https://api.ipify.org?format=json')
-    .then(response => {
-      const publicIp = response.data.ip;
-      console.log('Public IP address:', publicIp);
-
-      async function getIpInfo (){
-        // Set endpoint and your access key
-        const ip = publicIp;
-        const accessKey = process.env.ACCESS_KEYIP;
-        const url = 'https://apiip.net/api/check?ip='+ip+'&accessKey='+accessKey; 
-
-        // Make a request and store the response
-        const response = await axios.get(url);
-        const result = response.data;
-
-        // Output the "code" value inside "currency" object
-        console.log(result.city);
-        res.render('index',{cityOfDelivery:result.city}); 
-      };
-
-      getIpInfo();
-
-    });
+   res.render('index'); 
  
 });
 
