@@ -60,7 +60,11 @@
         <div class="d-flex ">
           <input type="text" class="form-control" id="categoryInput"
             placeholder="Search For Products - accesories, electronics../But this not works for now">
-          <button class="btn searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+
+            <form action="/searchByCategory" method="get"> 
+
+          <button class="btn searchBtn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
         </div>
 
         <li id="yourOrders">
@@ -199,7 +203,7 @@
       })
 
       
-      alert("for any kind of change in web page after deleting or changing the product you need to refresh page");
+      // alert("for any kind of change in web page after deleting or changing the product you need to refresh page");
 
     </script>
 

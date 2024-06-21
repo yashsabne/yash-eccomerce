@@ -20,7 +20,6 @@ const { type } = require('os');
 const PORT = 3000;
 
 
-
 // Set up view engine (assuming you're using EJS)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -120,12 +119,10 @@ app.get('/', async (req, res) => {
       const publicIp = response.data.ip;
       console.log('Public IP address:', publicIp);
 
-      // Make a request to the apiip.net API with the public IP address
-
       async function getIpInfo (){
         // Set endpoint and your access key
         const ip = publicIp;
-        const accessKey = '559823e7-182f-40e5-afd5-4d9e4a37656c';
+        const accessKey = process.env.ACCESS_KEYIP;
         const url = 'https://apiip.net/api/check?ip='+ip+'&accessKey='+accessKey; 
 
         // Make a request and store the response
@@ -135,15 +132,13 @@ app.get('/', async (req, res) => {
         // Output the "code" value inside "currency" object
         console.log(result.city);
         res.render('index',{cityOfDelivery:result.city}); 
-
-
       };
 
       getIpInfo();
 
     });
+ 
 });
-
 
 app.get('/login', (req, res) => {
     res.render("login")
@@ -169,8 +164,8 @@ app.post('/send-email-otp', async (req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: "yashsabne39@gmail.com",
-                pass: "28MJpBDVh19Gv0SN"
+                user: process.env.USEROTP,
+                pass: process.env.PASSOTP
             }
         });
 
@@ -244,9 +239,7 @@ app.post("/register", async function (req, res) {
 });
 //=====================POSTT REQUEST FOR login DONE SUCCESSFULLY==============//
 
-
-let timeoutId;
-
+ 
 app.post("/login", async function (req, res) {
     try {
         const username = req.body.username;
@@ -293,7 +286,6 @@ app.get('/logout', (req, res) => {
             console.error('Error destroying session:', err);
         }
 
-        // Redirect to the login page after successful logout
         res.redirect('/login');
     });
 });
@@ -322,7 +314,6 @@ app.post("/add-to-cart", async function (req, res) {
         if (!userId) {
             return res.render('login');
         }
-
         // Read products from JSON file
         const products = readProductsFromFile();
 
@@ -406,8 +397,6 @@ app.get("/cart", async (req, res) => {
 
         }
 
-        //  console.log(cartItemPrices)
-
         let sum = 0;
         totalSumWithQunatityAdd.forEach(itemPrices => {
             sum += itemPrices
@@ -439,42 +428,18 @@ app.get("/cart", async (req, res) => {
         const totalOrder = (parseInt(totalSumAfterShipping) + parseInt(taxesOnProducts)).toFixed(2);
         const userfirstLetter = user.firstLetterOfUser;
 
-        axios.get('https://api.ipify.org?format=json')
-        .then(response => {
-          const publicIp = response.data.ip;
-          ('Public IP address:', publicIp);
     
-          // Make a request to the apiip.net API with the public IP address
-    
-          async function getIpInfo (){
-            // Set endpoint and your access key
-            const ip = publicIp;
-            const accessKey = '559823e7-182f-40e5-afd5-4d9e4a37656c';
-            const url = 'https://apiip.net/api/check?ip='+ip+'&accessKey='+accessKey; 
-    
-            // Make a request and store the response
-            const response = await axios.get(url);
-            const result = response.data;
-    
-            // Output the "code" value inside "currency" object
-            // console.log(result.city);
-            res.render("cart", {
-                cartItems: user.cart,
-                cartIsEmpty: cartIsEmpty,
-                cartItemNumber: usercartArrayNumber,
-                totalSum: totalSumAfterShipping,
-                shipppingCharges: shipppingCharges,
-                taxesOnProducts: taxesOnProducts,
-                totalAfterTax: totalOrder,
-                firstLetterOfUser: userfirstLetter,
-                totalSumBeforeShipping: totalSumBeforeShipping,
-                cityOfDelivery:result.city
-            });
-    
-          };
-    
-          getIpInfo();
-    
+
+        res.render("cart", {
+            cartItems: user.cart,
+            cartIsEmpty: cartIsEmpty,
+            cartItemNumber: usercartArrayNumber,
+            totalSum: totalSumAfterShipping,
+            shipppingCharges: shipppingCharges,
+            taxesOnProducts: taxesOnProducts,
+            totalAfterTax: totalOrder,
+            firstLetterOfUser: userfirstLetter,
+            totalSumBeforeShipping: totalSumBeforeShipping 
         });
 
     
@@ -621,43 +586,16 @@ app.get("/address", async (req, res) => {
 
         const userfirstLetter = user.firstLetterOfUser;
 
-        axios.get('https://api.ipify.org?format=json')
-        .then(response => {
-          const publicIp = response.data.ip;
- 
-    
-          // Make a request to the apiip.net API with the public IP address
-    
-          async function getIpInfo (){
-            // Set endpoint and your access key
-            const ip = publicIp;
-            const accessKey = '559823e7-182f-40e5-afd5-4d9e4a37656c';
-            const url = 'https://apiip.net/api/check?ip='+ip+'&accessKey='+accessKey; 
-    
-            // Make a request and store the response
-            const response = await axios.get(url);
-            const result = response.data;
-    
-            // Output the "code" value inside "currency" object
+      
+        res.render('address', {
+            addresses: address,
+            cartItemNumber: usercartArrayNumber,
+            totalSum: totalSumAfterShipping,
+            shipppingCharges: shipppingCharges,
+            taxesOnProducts: taxesOnProducts,
+            totalAfterTax: totalOrder,
+            firstLetterOfUser: userfirstLetter,
             
-
-            res.render('address', {
-                addresses: address,
-                cartItemNumber: usercartArrayNumber,
-                totalSum: totalSumAfterShipping,
-                shipppingCharges: shipppingCharges,
-                taxesOnProducts: taxesOnProducts,
-                totalAfterTax: totalOrder,
-                firstLetterOfUser: userfirstLetter,
-                cityOfDelivery:result.city
-            });
-       
-    
-    
-          };
-    
-          getIpInfo();
-    
         });
 
      
@@ -833,7 +771,7 @@ app.post('/orderConfirm', async (req, res) => {
     try {
         const userId = req.session.userId;
         const user = await User.findById(userId);
-        const nameU = user.name;
+        const nameU = user.nameU;
         const username = user.username;
         const { selectedAddressIndex: newIndex, selectedPaymentMethod } = req.body;
         const paymentDone = req.body.paymentDone;
@@ -867,8 +805,8 @@ app.post('/orderConfirm', async (req, res) => {
             port: 587,
             secure: false,
             auth: {
-                user: "yashsabne39@gmail.com",
-                pass: "28MJpBDVh19Gv0SN"
+                user: process.env.USEROTP,
+                pass: process.env.PASSOTP
             }
 
         });
@@ -879,8 +817,7 @@ app.post('/orderConfirm', async (req, res) => {
             subject: `Hurray! Order confirmed successfully`,
             html: `<p> Hello <b> ${nameU}</b>, your order is successfully placed! we will reach soon to you with your order </p>
                     <p>For Order details visit to our website<p>
-                    <p>Thank you</p><p>Best Regards </p><p><b> Yash Store</b> </p> <br>
-                    <p> get the order details here <a href="http://localhost:3000/Orders">get details</a></p>`
+                    <p>Thank you</p><p>Best Regards </p><p><b> Yash Store</b> </p>`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -909,9 +846,11 @@ app.get('/terms&condition', (req, res) => {
 
 
 const razorpay = new Razorpay({
-    key_id: 'rzp_test_SLeOOqQEvpGxpv',
-    key_secret: '52wVtPmspUXE25S68JMZDPdj',
+    key_id: process.env.key_id,
+    key_secret: process.env.key_secret,
 });
+
+
 
 app.get('/orderSucess', async (req, res) => {
     await res.render('orderSucess')

@@ -23,100 +23,13 @@
     <!-- Here are the CSS files for this page. -->
    
     <link rel="stylesheet" href="css/orders.css">
+    <link rel="stylesheet" href="style.css">
   </head>
 
   <body id="orderBody">
 
-    <nav class="navbar navbar-expand-lg ">
-      <a class="navbar-brand" href="#">
-        <!-- <b>YASH'S STORE</b> -->
-        <img style="height: 60px;width: 100px;" src="imges/logo.png" alt="">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fa-solid fa-bars-staggered navbar-toggler-icon"></i>
-      </button>
+    <p style="text-align: center;margin-top: 30px;margin-bottom: -50px;"> page is in uder construction </p>
   
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link deliveryLocation" href="/">
-              <i class="fa-solid fa-location-dot"></i>
-              <span id="cityName">
-                <%= locals.cityOfDelivery %>
-              </span>
-            </a>
-          </li>
-  
-          <li class="nav-item dropdown yashDroppdownPrice">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true">
-              <button class="price-sort">Sort Price</button>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="lToH"
-                  value="low to high"><label for="lToH">low to high</label> </div>
-              <div class="div-price"> <input class="dropdown-item radioC" type="radio" name="sort" id="hToL"
-                  value="high to low"><label for="hToL">high to low</label></div>
-  
-            </div>
-          </li>
-          <div class="d-flex ">
-            <input type="text" class="form-control" id="categoryInput"
-              placeholder="Search For Products - accesories, electronics../But this not works for now">
-            <button class="btn searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </div>
-  
-          <li id="yourOrders">
-            <a href="/Orders"> 
-            <i style="color: white;margin-bottom: -20px;" class="fa-solid fa-bag-shopping"></i> <br>
-            <span> your orders</span>
-          </a>
-          </li>
-  
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true">
-              <button class="account"
-                style="color: #00539C;background-color: white;text-transform: capitalize;border: 2px solid orange;">
-  
-                <% if(locals.firstLetterOfUser) { %>
-                  <p>
-                    <%=firstLetterOfUser %>
-                  </p>
-  
-                  <% } else { %>
-                    <i class="fa-solid fa-circle-user" style="color: 00539C;"></i>
-                    <% } %>
-              </button>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item openLoginModel" href="/login">Login</a>
-              <a class="dropdown-item" href="/register">New Register</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Need Help?</a>
-              <a class="dropdown-item" style="color: blue;" id="logout" href="/logout">Logout</a>
-            </div>
-          </li>
-  
-  
-          <a class="nav-link cartOption" href="/cart">
-            <img class="cart-icon" src="imges/cart-icon.png">
-            <div class="cart-quantity" id="cartQuantity">
-              <% if(locals.firstLetterOfUser) { %>
-                <%= locals.cartLength %>
-  
-                  <%} else { %>
-                    <big>+</big>
-                    <%} %>
-  
-            </div>
-          </a>
-        </ul>
-  
-      </div>
-  
-    </nav>
   
 
     <div class="main">
